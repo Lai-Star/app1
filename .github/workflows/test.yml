@@ -1,0 +1,65 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci --ignore-scripts
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Compile
+        run: npm run build
+
+  test-types:
+    name: Test Types with TypeScript ${{ matrix.ts }}
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ts: ['3.9', '4.0', '4.1', '4.2', '4.3', '4.4', '4.5', 'next']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci --ignore-scripts
+
+      - name: Install TypeScript ${{ matrix.ts }}
+        run: npm install typescript@${{ matrix.ts }} --ignore-scripts
+
+      - name: Test types
+        run: |
+          ./node_modules/.bin/tsc --version
+          npm run test:typescript

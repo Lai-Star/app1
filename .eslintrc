@@ -1,0 +1,28 @@
+{
+  "extends": ["prettier", "plugin:@typescript-eslint/recommended"],
+  "env": {
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "impliedStrict": true
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "padded-blocks": "off",
+    "no-use-before-define": "off",
+    "no-unused-expressions": "off",
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/camelcase": "off"
+  }
+}
